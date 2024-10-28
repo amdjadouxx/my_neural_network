@@ -1,2 +1,2 @@
 # my_neural_network
-implementation of some neural networks from scratch
+implementation of some basic neural networks from scratch
