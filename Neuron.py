@@ -54,3 +54,10 @@ class Neuron:
         """
         self.weights -= learning_rate * error * self.inputs
         self.bias -= learning_rate * error
+
+    def clipping_weights(self):
+        """
+        Clip weights
+        """
+        self.weights = np.clip(self.weights, -1, 1)
+        self.bias = np.clip(self.bias, -1, 1)
