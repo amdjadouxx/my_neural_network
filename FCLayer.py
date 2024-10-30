@@ -9,8 +9,8 @@ class FCLayer:
         self.activation_derivative = activation_derivative
         self.neurons = [
             Neuron(
-                weights=np.random.randn(input_size),
-                bias=np.random.randn(),
+                weights=np.random.rand(input_size) - 0.5,
+                bias=np.random.rand(1) - 0.5,
                 activation_function=activation,
                 activation_function_derivative=activation_derivative
             ) for _ in range(output_size)
