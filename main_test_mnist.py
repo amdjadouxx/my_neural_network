@@ -21,7 +21,7 @@ x_test = x_test.astype('float32')
 x_test /= 255
 y_test = to_categorical(y_test)
 
-net = Network()
+net = Network(loss=mse, loss_prime=mse_prime)
 net.add(FCLayer(28*28, 100))
 net.add(ActivationLayer(tanh, tanh_prime))
 net.add(FCLayer(100, 50))
@@ -29,7 +29,6 @@ net.add(ActivationLayer(tanh, tanh_prime))
 net.add(FCLayer(50, 10))
 net.add(ActivationLayer(tanh, tanh_prime))
 
-net.use(mse, mse_prime)
 net.fit(x_train[0:1000], y_train[0:1000], epochs=35, learning_rate=0.1)
 
 out = net.predict(x_test[0:3])

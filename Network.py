@@ -4,7 +4,7 @@ from ActivationFunc import *
 from LossesFunc import *
 
 class Network:
-    def __init__(self):
+    def __init__(self, loss=mse, loss_prime=mse_prime):
         self.layers = []
         self.loss = None
         self.loss_prime = None
@@ -12,11 +12,6 @@ class Network:
     def add(self, layer):
         """Ajoute une couche au réseau."""
         self.layers.append(layer)
-
-    def use(self, loss, loss_prime):
-        """Définit la fonction de perte et sa dérivée."""
-        self.loss = loss
-        self.loss_prime = loss_prime
 
     def predict(self, input_data):
         """Prédit la sortie pour les données d'entrée données."""
