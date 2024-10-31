@@ -29,7 +29,10 @@ net.add(ActivationLayer(tanh, tanh_prime))
 net.add(FCLayer(50, 10))
 net.add(ActivationLayer(tanh, tanh_prime))
 
-net.fit(x_train[0:1000], y_train[0:1000], epochs=35, learning_rate=0.1)
+net.fit(x_train[0:1000], y_train[0:1000], epochs=35, learning_rate=0.1, silent=True)
+net.summary()
+print("eval in percent: {}".format(net.evaluate(x_train, y_train) * 100))
+net.disp_loss_accuracy_graph()
 
 out = net.predict(x_test[0:3])
 print("\n")

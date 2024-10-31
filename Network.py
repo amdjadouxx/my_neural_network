@@ -2,12 +2,15 @@ import numpy as np
 from FCLayer import FCLayer
 from ActivationFunc import *
 from LossesFunc import *
+from DisplayTrainStats import *
 
 class Network:
     def __init__(self, loss=mse, loss_prime=mse_prime):
         self.layers = []
-        self.loss = None
-        self.loss_prime = None
+        self.err_logs = []
+        self.accuracy_logs = []
+        self.loss = loss
+        self.loss_prime = loss_prime
 
     def add(self, layer):
         """Ajoute une couche au réseau."""
@@ -26,8 +29,9 @@ class Network:
 
         return result
 
-    def fit(self, x_train, y_train, epochs, learning_rate):
+    def fit(self, x_train, y_train, epochs, learning_rate, silent=False):
         """Entraîne le réseau sur les données d'entraînement."""
+        self.clear_logs()
         samples = len(x_train)
 
         for i in range(epochs):
@@ -44,7 +48,34 @@ class Network:
                     error = layer.backward(error, learning_rate)
 
             err /= samples
-            print(f'epoch {i+1}/{epochs} loss = {err}')
+            if not silent:
+                print(f'epoch {i+1}/{epochs} loss = {err}')
+            self.err_logs.append(err)
+            self.accuracy_logs.append(self.evaluate(x_train, y_train))
+
+    def clear_logs(self):
+        """Efface les statistiques d'entraînement."""
+        self.err_logs = []
+        self.accuracy_logs = []
+
+    def evaluate(self, x_test, y_test):
+        """Évalue le réseau sur les données de test."""
+        samples = len(x_test)
+        correct = 0
+
+        for i in range(samples):
+            output = x_test[i]
+            for layer in self.layers:
+                output = layer.forward(output)
+
+            predicted = output
+            expected = y_test[i]
+
+            if np.argmax(predicted) == np.argmax(expected):
+                correct += 1
+
+        accuracy = correct / samples
+        return accuracy
 
     def summary(self):
         """Affiche un résumé du réseau."""
@@ -59,4 +90,17 @@ class Network:
         print('========================================')
         print(f'Paramètres totaux: {total_params}')
         print('========================================')
+
+    def disp_loss_graph(self):
+        """Affiche les statistiques d'entraînement."""
+        disp_loss_graph(self.err_logs)
+
+    def disp_accuracy_graph(self):
+        """Affiche les statistiques d'entraînement."""
+        disp_accuracy_graph(self.accuracy_logs)
+
+    def disp_loss_accuracy_graph(self):
+        """Affiche les statistiques d'entraînement."""
+        disp_loss_accuracy_graph(self.err_logs, self.accuracy_logs)
+
 
