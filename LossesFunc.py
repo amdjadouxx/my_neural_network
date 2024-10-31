@@ -11,6 +11,8 @@ def mse(y_true, y_pred):
     """
     return np.mean(np.power(y_true - y_pred, 2))
 
+mse.__name__ = "mse"
+
 
 def mse_prime(y_true, y_pred):
     """
