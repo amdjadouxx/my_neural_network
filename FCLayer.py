@@ -1,49 +1,46 @@
-from Neuron import Neuron
 import numpy as np
+from Layer import Layer
 
-class FCLayer:
-    def __init__(self, input_size, output_size, activation, activation_derivative):
-        self.input_size = input_size
-        self.output_size = output_size
-        self.activation = activation
-        self.activation_derivative = activation_derivative
-        self.neurons = [
-            Neuron(
-                weights=np.random.rand(input_size) - 0.5,
-                bias=np.random.rand(1) - 0.5,
-                activation_function=activation,
-                activation_function_derivative=activation_derivative
-            ) for _ in range(output_size)
-        ]
+class FCLayer(Layer):
+    def __init__(self, input_size, output_size):
+        self.weights = np.random.rand(input_size, output_size) - 0.5
+        self.biases = np.random.rand(1, output_size) - 0.5
 
-    def forward(self, inputs):
-        return [neuron.forward(inputs) for neuron in self.neurons]
+    def forward(self, data_input):
+        """
+        Forward pass
 
-    def backward(self, errors):
-        return [neuron.backward(error) for neuron, error in zip(self.neurons, errors)]
+        :param data_input: input data
+        :return: output
+        """
+        self.input = data_input
+        self.output = np.dot(self.input, self.weights) + self.biases
+        return self.output
 
-    def update(self, weights, biases):
-        for neuron, weight, bias in zip(self.neurons, weights, biases):
-            neuron.update(weight, bias)
+    def backward(self, error, learning_rate):
+        """
+        Backward pass
 
-    def update_weights(self, learning_rate, errors):
-        for neuron, error in zip(self.neurons, errors):
-            neuron.update_weights(learning_rate, error)
+        :param error: error of the layer
+        :param learning_rate: learning rate
+        :return: error of the previous layer
+        """
+        weights_error = np.dot(self.input.T, error)
 
-    def clipping_weights(self):
-        for neuron in self.neurons:
-            neuron.clipping_weights()
+        self.weights -= learning_rate * weights_error
+        self.biases -= learning_rate * error
 
-    def get_weights(self):
-        return [neuron.weights for neuron in self.neurons]
+        return np.dot(error, self.weights.T)
 
-    def get_biases(self):
-        return [neuron.bias for neuron in self.neurons]
+    def __repr__(self):
+        return f'FCLayer: {self.weights.shape[0]} inputs, {self.weights.shape[1]} outputs'
 
-    def set_weights(self, weights):
-        for neuron, weight in zip(self.neurons, weights):
-            neuron.weights = weight
+    def __str__(self):
+        return f'FCLayer: {self.weights.shape[0]} inputs, {self.weights.shape[1]} outputs'
 
-    def set_biases(self, biases):
-        for neuron, bias in zip(self.neurons, biases):
-            neuron.bias = bias
+    def params_count(self):
+        return self.weights.size + self.biases.size
+
+    def summary(self):
+        print(f'FCLayer: {self.weights.shape[0]} inputs, {self.weights.shape[1]} outputs')
+        print(f'Paramètres: {self.params_count()}')
