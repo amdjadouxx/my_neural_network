@@ -21,15 +21,7 @@ Ajoute une couche au réseau.
 - **Paramètres** :
   - `layer` : Objet de type `Layer` à ajouter au réseau.
 
-### `use(self, loss, loss_prime)`
-
-Définit la fonction de perte et sa dérivée.
-
-- **Paramètres** :
-  - `loss` : Fonction de perte.
-  - `loss_prime` : Dérivée de la fonction de perte.
-
-### `set_optimizer(self, optimizer)`
+### `set_optimizer(self, optimizer) (SOON)`
 
 Définit l'optimiseur à utiliser pour l'entraînement.
 
