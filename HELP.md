@@ -104,14 +104,13 @@ x_train = np.array([[[0,0]], [[0,1]], [[1,0]], [[1,1]]])
 y_train = np.array([[[0]], [[1]], [[1]], [[0]]])
 
 # Création du réseau
-net = Network()
+net = Network(mse, mse_prime)
 net.add(FCLayer(2, 3))
 net.add(ActivationLayer(tanh, tanh_prime))
 net.add(FCLayer(3, 1))
 net.add(ActivationLayer(sigmoid, sigmoid_prime))
 
 # Définir la fonction de perte et l'optimiseur
-net.use(mse, mse_prime)
 net.set_optimizer(Adam(learning_rate=0.01))
 
 # Entraîner le réseau
