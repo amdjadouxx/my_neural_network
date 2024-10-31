@@ -29,7 +29,7 @@ class Network:
 
         return result
 
-    def fit(self, x_train, y_train, epochs, learning_rate, silent=False):
+    def fit(self, x_train, y_train, epochs, learning_rate, silent=False, eval=True):
         """Entraîne le réseau sur les données d'entraînement."""
         self.clear_logs()
         samples = len(x_train)
@@ -51,14 +51,15 @@ class Network:
             if not silent:
                 print(f'epoch {i+1}/{epochs} loss = {err}')
             self.err_logs.append(err)
-            self.accuracy_logs.append(self.evaluate(x_train, y_train))
+            if eval:
+                self.accuracy_logs.append(self.evaluate(x_train, y_train))
 
     def clear_logs(self):
         """Efface les statistiques d'entraînement."""
         self.err_logs = []
         self.accuracy_logs = []
 
-    def evaluate(self, x_test, y_test):
+    def evaluate(self, x_test, y_test, silent=True):
         """Évalue le réseau sur les données de test."""
         samples = len(x_test)
         correct = 0
@@ -75,6 +76,8 @@ class Network:
                 correct += 1
 
         accuracy = correct / samples
+        if not silent:
+            print(f'Accuracy = {accuracy * 100}%')
         return accuracy
 
     def summary(self):
@@ -102,5 +105,9 @@ class Network:
     def disp_loss_accuracy_graph(self):
         """Affiche les statistiques d'entraînement."""
         disp_loss_accuracy_graph(self.err_logs, self.accuracy_logs)
+
+    def show(self):
+        """Affiche les graphiques."""
+        show()
 
 

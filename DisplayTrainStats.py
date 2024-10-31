@@ -10,6 +10,7 @@ def disp_loss_graph(err_logs):
     """
     plt.plot(range(len(err_logs)), err_logs)
     plt.title('Training loss')
+    color = 'tab:red'
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
 
@@ -24,8 +25,15 @@ def disp_accuracy_graph(accuracy_logs):
         return
     plt.plot(range(len(accuracy_logs)), accuracy_logs)
     plt.title('Training accuracy')
+    color = 'tab:blue'
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
+
+def show():
+    """
+    Show the graphs
+    """
+    plt.show()
 
 def disp_loss_accuracy_graph(err_logs, accuracy_logs):
     """
@@ -52,4 +60,3 @@ def disp_loss_accuracy_graph(err_logs, accuracy_logs):
     ax2.tick_params(axis='y', labelcolor=color)
 
     fig.tight_layout()
-    plt.show()
