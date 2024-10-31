@@ -14,6 +14,20 @@ Initialise un nouvel objet `Network`.
   - `loss` : Fonction de perte (par défaut `mse`).
   - `loss_prime` : Dérivée de la fonction de perte (par défaut `mse_prime`).
 
+### `load(self, filemane)`
+
+Charge les paramètres d'un `Network` déjà entraîné
+
+- **Paramètres**:
+  - `filename` : Objet de type string pour identifier le fichier
+
+### `save(self, filemane)`
+
+Sauvegarde les paramètres d'un `Network` déjà entraîné
+
+- **Paramètres**:
+  - `filename` : Objet de type string pour nommer le fichier à créer
+
 ### `add(self, layer)`
 
 Ajoute une couche au réseau.
