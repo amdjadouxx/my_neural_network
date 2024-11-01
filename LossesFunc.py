@@ -23,3 +23,5 @@ def mse_prime(y_true, y_pred):
     :return: derivative of the mean squared error
     """
     return 2 * (y_pred - y_true) / y_true.size
+
+mse_prime.__name__ = "mse_prime"

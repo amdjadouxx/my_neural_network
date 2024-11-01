@@ -25,4 +25,4 @@ class ActivationLayer(Layer):
         return 0
 
     def summary(self):
-        print(f'ActivationLayer: function = {self.activation} and derivative = {self.activation_prime} with {self.input.size} inputs')
+        print(f'ActivationLayer: function = {self.activation.__name__} with {self.input.size} inputs')

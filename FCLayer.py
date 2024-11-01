@@ -42,5 +42,5 @@ class FCLayer(Layer):
         return self.weights.size + self.biases.size
 
     def summary(self):
-        print(f'FCLayer: {self.weights.shape[0]} inputs, {self.weights.shape[1]} outputs')
+        self.__str__()
         print(f'Paramètres: {self.params_count()}')

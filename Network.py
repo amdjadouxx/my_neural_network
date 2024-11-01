@@ -84,6 +84,8 @@ class Network:
         """Affiche un résumé du réseau."""
         print('Résumé du réseau')
         print('========================================')
+        print('Fonction de perte: ', self.loss.__name__)
+        print('========================================')
         print('Layer (type)                 Output Shape              Param #   ')
         print('========================================')
         total_params = 0

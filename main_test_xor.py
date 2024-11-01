@@ -16,8 +16,8 @@ net.add(ActivationLayer(sigmoid, sigmoid_prime))
 
 net.fit(x_train, y_train, epochs=2000, learning_rate=0.1, silent=True)
 net.summary()
-net.disp_loss_graph()
 net.disp_loss_accuracy_graph()
+net.show()
 
 out = net.predict(x_train)
 for vidx in range(len(out)):

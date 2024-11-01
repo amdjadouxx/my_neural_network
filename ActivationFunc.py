@@ -65,6 +65,8 @@ def step(x):
     """
     return np.heaviside(x, 1)
 
+step.__name__ = "step"
+
 def step_prime(x):
     """
     Derivative of the step activation function
@@ -75,3 +77,5 @@ def step_prime(x):
     :return: output
     """
     return 0
+
+step_prime.__name__ = "step_prime"
