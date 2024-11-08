@@ -4,6 +4,7 @@ from ActivationLayer import ActivationLayer
 from ActivationFunc import *
 from LossesFunc import *
 from Network import Network
+from DropoutLayer import DropoutLayer
 import sys
 
 from keras.datasets import mnist
@@ -26,11 +27,14 @@ if __name__ == "__main__":
     net = Network(loss=mse, loss_prime=mse_prime)
     net.add(FCLayer(28*28, 100))
     net.add(ActivationLayer(tanh, tanh_prime))
+    net.add(DropoutLayer(0.5))
     net.add(FCLayer(100, 50))
     net.add(ActivationLayer(tanh, tanh_prime))
+    net.add(DropoutLayer(0.5))
     net.add(FCLayer(50, 10))
-    net.add(ActivationLayer(tanh, tanh_prime))
-    net.fit(x_train[0:1000], y_train[0:1000], epochs=100, learning_rate=0.1, silent=False)
+    net.add(ActivationLayer(sigmoid, sigmoid_prime))
+
+    net.fit(x_train[0:1000], y_train[0:1000], epochs=200, learning_rate=0.1, silent=False)
 
     net.summary()
 

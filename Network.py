@@ -3,6 +3,7 @@ from FCLayer import FCLayer
 from ActivationFunc import *
 from LossesFunc import *
 from DisplayTrainStats import *
+from DropoutLayer import DropoutLayer
 
 class Network:
     def __init__(self, loss=mse, loss_prime=mse_prime):

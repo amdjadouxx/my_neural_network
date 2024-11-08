@@ -4,6 +4,7 @@ from ActivationLayer import ActivationLayer
 from ActivationFunc import *
 from LossesFunc import *
 from Network import Network
+from DropoutLayer import DropoutLayer
 
 x_train = np.array([[[0,0]], [[0,1]], [[1,0]], [[1,1]]])
 y_train = np.array([[[0]], [[1]], [[1]], [[0]]])
