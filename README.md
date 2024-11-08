@@ -1,9 +1,9 @@
 # my_neural_network
 Neural networks from scratch
 
-# NEXT_STEP
+# NEXT_STEPS
 
-==> layer of neurons implementation
+==> optimizer implementation
 
-==> performance test on neuron
+==> save and load with pickle
 
