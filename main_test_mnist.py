@@ -9,6 +9,7 @@ import sys
 
 from keras.datasets import mnist
 from tensorflow.keras.utils import to_categorical
+import matplotlib.pyplot as plt
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
@@ -34,7 +35,7 @@ if __name__ == "__main__":
     net.add(FCLayer(50, 10))
     net.add(ActivationLayer(sigmoid, sigmoid_prime))
 
-    net.fit(x_train[0:1000], y_train[0:1000], epochs=200, learning_rate=0.1, silent=False)
+    net.fit(x_train[0:1000], y_train[0:1000], epochs=100, learning_rate=0.1, silent=False)
 
     net.summary()
 
@@ -45,5 +46,9 @@ if __name__ == "__main__":
 
     out = net.predict(x_test[0:3])
     for i in range(3):
+        #display image
+        img = x_test[i].reshape(28, 28)
+        plt.imshow(img, cmap='gray')
+        plt.show()
         print("predicted value : ", np.argmax(out[i]), end="\n")
         print("true value : ", np.argmax(y_test[i]), end="\n")
