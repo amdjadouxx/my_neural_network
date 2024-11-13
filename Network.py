@@ -30,10 +30,12 @@ class Network:
 
         return result
 
-    def fit(self, x_train, y_train, epochs, learning_rate, silent=False, eval=True):
-        """Entraîne le réseau sur les données d'entraînement."""
+    def fit(self, x_train, y_train, epochs, learning_rate, silent=False, eval=True, threshold=None, patience=0):
+        """Entraîne le réseau sur les données d'entraînement avec un système de seuil."""
         self.clear_logs()
         samples = len(x_train)
+        patience_counter = 0
+        best_loss = float('inf')
 
         for i in range(epochs):
             err = 0
@@ -54,6 +56,16 @@ class Network:
             self.err_logs.append(err)
             if eval:
                 self.accuracy_logs.append(self.evaluate(x_train, y_train))
+
+            if threshold is not None:
+                if err < best_loss:
+                    best_loss = err
+                    patience_counter = 0
+                else:
+                    patience_counter += 1
+                    if patience_counter >= patience:
+                        print(f'Early stopping at epoch {i+1}')
+                        break
 
     def clear_logs(self):
         """Efface les statistiques d'entraînement."""
