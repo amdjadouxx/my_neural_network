@@ -22,7 +22,7 @@ def save():
     net.add(FCLayer(3, 1))
     net.add(ActivationLayer(sigmoid, sigmoid_prime))
 
-    net.fit(x_train, y_train, epochs=2000, learning_rate=0.1, silent=True)
+    net.fit(x_train, y_train, epochs=2000, learning_rate=0.1, silent=True, threshold=0.01, patience=10)
     net.save('xor.pkl')
     return net
 

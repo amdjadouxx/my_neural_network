@@ -38,7 +38,7 @@ if __name__ == "__main__":
         net.add(FCLayer(50, 10))
         net.add(ActivationLayer(sigmoid, sigmoid_prime))
 
-        net.fit(x_train[0:1000], y_train[0:1000], epochs=200, learning_rate=0.1, silent=False)
+        net.fit(x_train[0:1000], y_train[0:1000], epochs=100, learning_rate=0.1, silent=False)
         net.save('mnist.pkl')
 
     acc = net.evaluate(x_train[0:1000], y_train[0:1000], silent=False)
