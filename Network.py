@@ -1,4 +1,5 @@
 import numpy as np
+import pickle as pkl
 from FCLayer import FCLayer
 from ActivationFunc import *
 from LossesFunc import *
@@ -125,55 +126,17 @@ class Network:
         """Affiche les graphiques."""
         show()
 
-    # def load(self, filename):
-    #     """Charge le réseau depuis un fichier."""
-    #     #save in the format: layer_type, input_size, output_size, weights, biases
-    #     with open(filename, 'r') as f:
-    #         for i, line in enumerate(f):
-    #             if i == 0:
-    #                 continue
-    #             if i == 1:
-    #                 data = line.split(',')
-    #                 loss = data[0]
-    #                 if loss == 'mse':
-    #                     self.loss = mse
-    #                     self.loss_prime = mse_prime
-    #                 continue
-    #             if i == 2:
-    #                 continue
-    #             data = line.split(',')
-    #             layer_type = data[0]
-    #             if layer_type == 'FCLayer':
-    #                 input_size = int(data[1])
-    #                 output_size = int(data[2])
-    #                 weights = np.array(data[3:3+input_size*output_size], dtype=float).reshape(input_size, output_size)
-    #                 biases = np.array(data[3+input_size*output_size:], dtype=float)
-    #                 layer = FCLayer(input_size, output_size)
-    #                 layer.weights = weights
-    #                 layer.biases = biases
-    #                 self.layers.append(layer)
-    #             elif layer_type == 'ActivationLayer':
-    #                 activation = globals()[data[1]]
-    #                 activation_prime = globals()[data[2]]
-    #                 layer = ActivationLayer(activation, activation_prime)
-    #                 self.layers.append(layer)
+    def save(self, filename):
+        """Sauvegarde le réseau dans un fichier."""
+        with open(filename, 'wb') as file:
+            pkl.dump(self, file)
 
-    # def save(self, filename):
-    #     """Sauvegarde le réseau dans un fichier."""
-    #     with open(filename, 'w') as f:
-    #         f.write('loss\n')
-    #         f.write(f'{self.loss.__name__}\n')
-    #         f.write('layer_type,input_size,output_size,weights,biases, activation, activation_prime\n')
-    #         for layer in self.layers:
-    #             if isinstance(layer, FCLayer):
-    #                 f.write('FCLayer,')
-    #                 f.write(f'{layer.weights.shape[0]},{layer.weights.shape[1]},')
-    #                 f.write(','.join(map(str, layer.weights.ravel())))
-    #                 f.write(',')
-    #                 f.write(','.join(map(str, layer.biases.ravel())))
-    #                 f.write('\n')
-    #             else:
-    #                 f.write('ActivationLayer\n')
-    #                 f.write(f',,,,\n')
-    #                 f.write(f'{layer.activation.__name__},{layer.activation_prime.__name__}\n')
-
+    def load(self, filename):
+        """Charge un réseau depuis un fichier."""
+        with open(filename, 'rb') as file:
+            loaded_model = pkl.load(file)
+        self.layers = loaded_model.layers
+        self.loss = loaded_model.loss
+        self.loss_prime = loaded_model.loss_prime
+        self.err_logs = loaded_model.err_logs
+        self.accuracy_logs = loaded_model.accuracy_logs
