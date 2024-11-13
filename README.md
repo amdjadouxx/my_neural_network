@@ -5,5 +5,4 @@ Neural networks from scratch
 
 ==> optimizer implementation
 
-==> save and load with pickle
-
+==> gui
