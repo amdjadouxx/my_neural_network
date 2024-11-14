@@ -1,15 +1,15 @@
 import numpy as np
-from FCLayer import FCLayer
-from ActivationLayer import ActivationLayer
-from ActivationFunc import *
-from LossesFunc import *
-from Network import Network
-from DropoutLayer import DropoutLayer
 import os
+import time
+import matplotlib.pyplot as plt
+from neural_network.Network import Network
+from neural_network.FCLayer import FCLayer
+from neural_network.ActivationLayer import ActivationLayer
+from neural_network.DropoutLayer import DropoutLayer
+
 
 from keras.datasets import mnist
 from tensorflow.keras.utils import to_categorical
-import matplotlib.pyplot as plt
 
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 
@@ -29,19 +29,20 @@ if __name__ == "__main__":
         net = Network()
         net.load('mnist.pkl')
     else:
-        net = Network(loss=mse, loss_prime=mse_prime)
+        start_time = time.time()
+        net = Network('mse')
         net.add(FCLayer(28*28, 100))
-        net.add(ActivationLayer(tanh, tanh_prime))
+        net.add(ActivationLayer('tanh'))
         net.add(DropoutLayer(0.5))
         net.add(FCLayer(100, 50))
-        net.add(ActivationLayer(tanh, tanh_prime))
+        net.add(ActivationLayer('tanh'))
         net.add(DropoutLayer(0.5))
         net.add(FCLayer(50, 10))
-        net.add(ActivationLayer(sigmoid, sigmoid_prime))
+        net.add(ActivationLayer('sigmoid'))
 
         net.fit(x_train[0:1000], y_train[0:1000], epochs=100, learning_rate=0.1, silent=False)
         net.save('mnist.pkl')
-
+        print("--- %s seconds ---" % (time.time() - start_time))
     acc = net.evaluate(x_train[0:1000], y_train[0:1000], silent=False)
 
     net.disp_loss_accuracy_graph()
@@ -49,7 +50,6 @@ if __name__ == "__main__":
 
     out = net.predict(x_test[0:3])
     for i in range(3):
-        #display image
         img = x_test[i].reshape(28, 28)
         plt.imshow(img, cmap='gray')
         plt.show()

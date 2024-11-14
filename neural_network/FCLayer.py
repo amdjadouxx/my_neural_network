@@ -1,9 +1,9 @@
 import numpy as np
-from Layer import Layer
+from .Layer import Layer
 
 class FCLayer(Layer):
     def __init__(self, input_size, output_size):
-        self.weights = np.random.rand(input_size, output_size) - 0.5
+        self.weights = np.random.randn(input_size, output_size) * np.sqrt(2. / input_size)
         self.biases = np.random.rand(1, output_size) - 0.5
 
     def forward(self, data_input):

@@ -13,6 +13,8 @@ def sigmoid(x):
     """
     return 1 / (1 + np.exp(-x))
 
+sigmoid.__name__ = "sigmoid"
+
 def sigmoid_prime(x):
     """
     Derivative of the sigmoid activation function
@@ -25,6 +27,8 @@ def sigmoid_prime(x):
     :return: output
     """
     return sigmoid(x) * (1 - sigmoid(x))
+
+sigmoid_prime.__name__ = "sigmoid_prime"
 
 def tanh(x):
     """
@@ -39,6 +43,8 @@ def tanh(x):
     """
     return np.tanh(x)
 
+tanh.__name__ = "tanh"
+
 def tanh_prime(x):
     """
     Derivative of the hyperbolic tangent activation function
@@ -51,6 +57,8 @@ def tanh_prime(x):
     :return: output
     """
     return 1 - np.tanh(x) ** 2
+
+tanh_prime.__name__ = "tanh_prime"
 
 def step(x):
     """

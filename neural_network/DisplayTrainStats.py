@@ -29,12 +29,6 @@ def disp_accuracy_graph(accuracy_logs):
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
 
-def show():
-    """
-    Show the graphs
-    """
-    plt.show()
-
 def disp_loss_accuracy_graph(err_logs, accuracy_logs):
     """
     Display the training statistics
@@ -60,3 +54,9 @@ def disp_loss_accuracy_graph(err_logs, accuracy_logs):
     ax2.tick_params(axis='y', labelcolor=color)
 
     fig.tight_layout()
+
+def show():
+    """
+    Show the graphs
+    """
+    plt.show()

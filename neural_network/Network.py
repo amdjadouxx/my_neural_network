@@ -1,18 +1,27 @@
 import numpy as np
 import pickle as pkl
-from FCLayer import FCLayer
-from ActivationFunc import *
-from LossesFunc import *
-from DisplayTrainStats import *
-from DropoutLayer import DropoutLayer
+from .FCLayer import FCLayer
+from .ActivationFunc import *
+from .LossesFunc import *
+from .DisplayTrainStats import *
+from .DropoutLayer import DropoutLayer
+from .FCLayer import FCLayer
+from .ActivationLayer import ActivationLayer
 
 class Network:
-    def __init__(self, loss=mse, loss_prime=mse_prime):
+
+    def __init__(self, loss='mse'):
         self.layers = []
         self.err_logs = []
         self.accuracy_logs = []
-        self.loss = loss
-        self.loss_prime = loss_prime
+        func, func_prime = self.name_to_func(loss)
+        self.loss = func
+        self.loss_prime = func_prime
+
+    def name_to_func(self, name):
+        """Retourne la fonction correspondante au nom."""
+        if name == 'mse':
+            return mse, mse_prime
 
     def add(self, layer):
         """Ajoute une couche au réseau."""

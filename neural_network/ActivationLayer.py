@@ -1,11 +1,21 @@
 import numpy as np
-from ActivationFunc import *
-from Layer import Layer
+from .ActivationFunc import *
+from .Layer import Layer
 
 class ActivationLayer(Layer):
-    def __init__(self, activation, activation_prime):
-        self.activation = activation
-        self.activation_prime = activation_prime
+
+    def __init__(self, activation):
+        func, func_prime = self.func_to_name(activation)
+        self.activation = func
+        self.activation_prime = func_prime
+
+    def func_to_name(self, func):
+        if func == 'tanh':
+            return tanh, tanh_prime
+        elif func == 'sigmoid':
+            return sigmoid, sigmoid_prime
+        elif func == 'step':
+            return step, step_prime
 
     def forward(self, data_input):
         self.input = data_input

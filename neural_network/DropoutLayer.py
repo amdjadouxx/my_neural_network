@@ -1,5 +1,5 @@
 import numpy as np
-from Layer import Layer
+from .Layer import Layer
 
 class DropoutLayer(Layer):
     def __init__(self, rate):

@@ -1,11 +1,9 @@
 import numpy as np
 import os
-from FCLayer import FCLayer
-from ActivationLayer import ActivationLayer
-from ActivationFunc import *
-from LossesFunc import *
-from Network import Network
-from DropoutLayer import DropoutLayer
+import time
+from neural_network.Network import Network
+from neural_network.FCLayer import FCLayer
+from neural_network.ActivationLayer import ActivationLayer
 
 x_train = np.array([[[0,0]], [[0,1]], [[1,0]], [[1,1]]])
 y_train = np.array([[[0]], [[1]], [[1]], [[0]]])
@@ -16,16 +14,17 @@ def load():
     return net
 
 def save():
-    net = Network(loss=mse, loss_prime=mse_prime)
+    start_time = time.time()
+    net = Network('mse')
     net.add(FCLayer(2, 3))
-    net.add(ActivationLayer(tanh, tanh_prime))
+    net.add(ActivationLayer('tanh'))
     net.add(FCLayer(3, 1))
-    net.add(ActivationLayer(sigmoid, sigmoid_prime))
+    net.add(ActivationLayer('sigmoid'))
 
-    net.fit(x_train, y_train, epochs=2000, learning_rate=0.1, silent=True, threshold=0.01, patience=10)
+    net.fit(x_train, y_train, epochs=500, learning_rate=0.1, silent=True, threshold=0.01, patience=10)
     net.save('xor.pkl')
+    print("--- %s seconds ---" % (time.time() - start_time))
     return net
-
 
 if __name__ == '__main__':
     if os.path.exists('xor.pkl'):

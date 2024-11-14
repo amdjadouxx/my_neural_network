@@ -14,3 +14,6 @@ class Layer:
 
     def summary(self):
         raise NotImplementedError
+    
+    def __str__(self):
+        raise NotImplementedError
