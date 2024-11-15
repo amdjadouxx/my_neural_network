@@ -24,32 +24,39 @@ x_test = x_test.astype('float32')
 x_test /= 255
 y_test = to_categorical(y_test)
 
+def save():
+    start_time = time.time()
+    net = Network('mse')
+    net.add(FCLayer(28*28, 100))
+    net.add(ActivationLayer('tanh'))
+    net.add(DropoutLayer(0.5))
+    net.add(FCLayer(100, 50))
+    net.add(ActivationLayer('tanh'))
+    net.add(DropoutLayer(0.5))
+    net.add(FCLayer(50, 10))
+    net.add(ActivationLayer('sigmoid'))
+
+    net.fit(x_train[0:1000], y_train[0:1000], epochs=1000, learning_rate=0.1, silent=False, threshold=0.01, patience=10)
+    net.show()
+    net.save('mnist.pkl')
+    print("--- %s seconds ---" % (time.time() - start_time))
+    accuracy = net.evaluate(x_test, y_test)
+    print("accuracy : ", accuracy * 100, "%")
+    net.disp_loss_accuracy_graph()
+    return net
+
 if __name__ == "__main__":
     if os.path.exists('mnist.pkl'):
         net = Network()
         net.load('mnist.pkl')
     else:
-        start_time = time.time()
-        net = Network('mse')
-        net.add(FCLayer(28*28, 100))
-        net.add(ActivationLayer('tanh'))
-        net.add(DropoutLayer(0.5))
-        net.add(FCLayer(100, 50))
-        net.add(ActivationLayer('tanh'))
-        net.add(DropoutLayer(0.5))
-        net.add(FCLayer(50, 10))
-        net.add(ActivationLayer('sigmoid'))
+        net = save()
 
-        net.fit(x_train[0:1000], y_train[0:1000], epochs=100, learning_rate=0.1, silent=False)
-        net.save('mnist.pkl')
-        print("--- %s seconds ---" % (time.time() - start_time))
-    acc = net.evaluate(x_train[0:1000], y_train[0:1000], silent=False)
-
-    net.disp_loss_accuracy_graph()
-    net.show()
+    net.summary()
+    net.confusion_matrix(x_test, y_test)
 
     out = net.predict(x_test[0:3])
-    for i in range(3):
+    for i in range(len(out)):
         img = x_test[i].reshape(28, 28)
         plt.imshow(img, cmap='gray')
         plt.show()

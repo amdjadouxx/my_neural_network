@@ -11,17 +11,15 @@ class DropoutLayer(Layer):
         self.rate = rate
         self.mask = None
 
-    def forward(self, data_input):
+    def forward(self, data_input) -> np.ndarray:
         self.input = data_input
         self.mask = np.random.binomial(1, 1 - self.rate, size=self.input.shape)
         self.output = self.input * self.mask
         return self.output
 
     def backward(self, error, learning_rate):
-        return error * self.mask
 
-    def __repr__(self):
-        return f'DropoutLayer(rate={self.rate})'
+        return error * self.mask
 
     def __str__(self):
         return f'DropoutLayer(rate={self.rate})'
@@ -31,3 +29,6 @@ class DropoutLayer(Layer):
 
     def summary(self):
         print(f'DropoutLayer: rate = {self.rate}')
+
+    def __doc__():
+        return 'Dropout layer used in neural networks to prevent overfitting by randomly setting some input units to 0'

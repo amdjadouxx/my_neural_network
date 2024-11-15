@@ -22,19 +22,12 @@ def save():
     net.add(ActivationLayer('sigmoid'))
 
     net.fit(x_train, y_train, epochs=500, learning_rate=0.1, silent=True, threshold=0.01, patience=10)
+    net.disp_loss_accuracy_graph()
     net.save('xor.pkl')
     print("--- %s seconds ---" % (time.time() - start_time))
     return net
 
-if __name__ == '__main__':
-    if os.path.exists('xor.pkl'):
-        net = load()
-    else:
-        net = save()
-    net.summary()
-    net.disp_loss_accuracy_graph()
-    net.show()
-
+def prediction(net):
     out = net.predict(x_train)
     for vidx in range(len(out)):
         if out[vidx] > 0.5:
@@ -42,3 +35,13 @@ if __name__ == '__main__':
         else:
             out[vidx] = 0
     print(out)
+
+if __name__ == '__main__':
+    if os.path.exists('xor.pkl'):
+        net = load()
+    else:
+        net = save()
+    net.summary()
+    net.show()
+
+    prediction(net)

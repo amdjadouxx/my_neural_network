@@ -87,3 +87,29 @@ def step_prime(x):
     return 0
 
 step_prime.__name__ = "step_prime"
+
+def relu(x):
+    """
+    Rectified linear unit activation function
+
+    rules:  the output is equal to x when x is higher than 0
+            the output is 0 when x is lower than 0
+
+    :param x: input
+    :return: output
+    """
+    return np.maximum(0, x)
+
+relu.__name__ = "relu"
+
+def relu_prime(x):
+    """
+    Derivative of the rectified linear unit activation function
+
+    rules : the derivative is 1 when x is higher than 0
+            the derivative is 0 when x is lower than 0
+
+    :param x: input
+    :return: output
+    """
+    return np.heaviside(x, 1)
