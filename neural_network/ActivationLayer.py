@@ -27,16 +27,35 @@ class ActivationLayer(Layer):
         return self.output
 
     def backward(self, error, learning_rate):
+        """
+        Backward pass
+
+        :param error: np.array: error from the next layer
+        :param learning_rate: float: learning rate
+        :return: np.array: error to pass to the previous layer
+        """
         return error * self.activation_prime(self.input)
 
     def __str__(self):
+        """
+        String representation of the activation layer
+        """
         return f'ActivationLayer: {self.activation}'
 
     def params_count(self):
+        """
+        Get the number of parameters in the activation layer
+        """
         return 0
 
     def summary(self):
+        """
+        Print a summary of the activation layer
+        """
         print(f'ActivationLayer: function = {self.activation.__name__} with {self.input.size} inputs')
 
     def __doc__(self):
+        """
+        Get the documentation of the activation layer
+        """
         return 'Activation layer used in neural networks to apply a function to the input data to detect complex patterns'

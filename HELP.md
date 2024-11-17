@@ -6,27 +6,26 @@ La classe `Network` permet de créer, entraîner et évaluer des réseaux de neu
 
 ## Méthodes Disponibles
 
-### `__init__(self, loss=mse, loss_prime=mse_prime)`
+### `__init__(self, loss='mse')`
 
 Initialise un nouvel objet `Network`.
 
 - **Paramètres** :
-  - `loss` : Fonction de perte (par défaut `mse`).
-  - `loss_prime` : Dérivée de la fonction de perte (par défaut `mse_prime`).
+  - `loss` : Nom de la fonction de perte (par défaut `mse`).
 
-### `load(self, filemane)`
+### `load(self, filename)`
 
-Charge les paramètres d'un `Network` déjà entraîné
-
-- **Paramètres**:
-  - `filename` : Objet de type string pour identifier le fichier
-
-### `save(self, filemane)`
-
-Sauvegarde les paramètres d'un `Network` déjà entraîné
+Charge les paramètres d'un `Network` déjà entraîné.
 
 - **Paramètres**:
-  - `filename` : Objet de type string pour nommer le fichier à créer
+  - `filename` : Nom du fichier contenant les paramètres sauvegardés.
+
+### `save(self, filename)`
+
+Sauvegarde les paramètres d'un `Network` déjà entraîné.
+
+- **Paramètres**:
+  - `filename` : Nom du fichier dans lequel sauvegarder les paramètres.
 
 ### `add(self, layer)`
 
@@ -35,14 +34,7 @@ Ajoute une couche au réseau.
 - **Paramètres** :
   - `layer` : Objet de type `Layer` à ajouter au réseau.
 
-### `set_optimizer(self, optimizer) (SOON)`
-
-Définit l'optimiseur à utiliser pour l'entraînement.
-
-- **Paramètres** :
-  - `optimizer` : Objet de type `Optimizer` (par exemple, `SGD`, `Adam`).
-
-### `fit(self, x_train, y_train, epochs, learning_rate, silent=False, eval=True)`
+### `fit(self, x_train, y_train, epochs, learning_rate, silent=False, eval=True, threshold=None, patience=0)`
 
 Entraîne le réseau sur les données d'entraînement.
 
@@ -53,6 +45,8 @@ Entraîne le réseau sur les données d'entraînement.
   - `learning_rate` : Taux d'apprentissage.
   - `silent` : Si `True`, n'affiche pas les statistiques d'entraînement (par défaut `False`).
   - `eval` : Si `True`, évalue le réseau après chaque époque (par défaut `True`).
+  - `threshold` : Seuil pour l'arrêt anticipé.
+  - `patience` : Nombre d'époques à attendre avant l'arrêt anticipé si le seuil n'est pas atteint.
 
 ### `predict(self, input_data)`
 
@@ -100,32 +94,39 @@ Affiche les graphiques des erreurs et des précisions d'entraînement.
 
 Affiche les graphiques.
 
+### `confusion_matrix(self, x_test, y_test)`
+
+Génère la matrice de confusion pour le réseau.
+
+- **Paramètres** :
+  - `x_test` : Données d'entrée pour le test.
+  - `y_test` : Données de sortie attendues pour le test.
+
+- **Retourne** :
+  - Matrice de confusion.
+
 ## Exemples d'utilisation
 
 ### Création et entraînement d'un réseau
 
 ```python
 import numpy as np
-from FCLayer import FCLayer
-from ActivationLayer import ActivationLayer
-from ActivationFunc import *
-from LossesFunc import *
-from Network import Network
-from Optimizers import Adam
+from neural_network.FCLayer import FCLayer
+from neural_network.ActivationLayer import ActivationLayer
+from neural_network.ActivationFunc import *
+from neural_network.LossesFunc import *
+from neural_network.Network import Network
 
 # Données d'entraînement
 x_train = np.array([[[0,0]], [[0,1]], [[1,0]], [[1,1]]])
 y_train = np.array([[[0]], [[1]], [[1]], [[0]]])
 
 # Création du réseau
-net = Network(mse, mse_prime)
+net = Network('mse')
 net.add(FCLayer(2, 3))
-net.add(ActivationLayer(tanh, tanh_prime))
+net.add(ActivationLayer('tanh'))
 net.add(FCLayer(3, 1))
-net.add(ActivationLayer(sigmoid, sigmoid_prime))
-
-# Définir la fonction de perte et l'optimiseur
-net.set_optimizer(Adam(learning_rate=0.01))
+net.add(ActivationLayer('sigmoid'))
 
 # Entraîner le réseau
 net.fit(x_train, y_train, epochs=2000, learning_rate=0.1)
@@ -140,3 +141,7 @@ net.show()
 # Prédire les sorties pour les données d'entraînement
 out = net.predict(x_train)
 print(out)
+
+# Générer la matrice de confusion
+conf_matrix = net.confusion_matrix(x_train, y_train)
+print(conf_matrix)

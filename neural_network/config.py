@@ -10,7 +10,8 @@ activation_func_dict = {
     'sigmoid' : (sigmoid, sigmoid_prime),
     'tanh' : (tanh, tanh_prime),
     'step' : (step, step_prime),
-    'relu' : (relu, relu_prime)
+    'relu' : (relu, relu_prime),
+    'softmax' : (softmax, softmax_prime)
     }
 
 def name_to_loss_func(name):

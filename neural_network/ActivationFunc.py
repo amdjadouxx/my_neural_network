@@ -113,3 +113,32 @@ def relu_prime(x):
     :return: output
     """
     return np.heaviside(x, 1)
+
+def softmax(x):
+    """
+    Softmax activation function
+
+    rules:  the output is close to 1 when x is higher than 0
+            the output is close to 0 when x is lower than 0
+            the output is 0.5 when x is equal to 0
+
+    :param x: input
+    :return: output
+    """
+    exps = np.exp(x - np.max(x))
+    return exps / np.sum(exps, axis=1, keepdims=True)
+
+softmax.__name__ = "softmax"
+
+def softmax_prime(x):
+    """
+    Derivative of the softmax activation function
+
+    rules : the derivative is 1
+
+    :param x: input
+    :return: output
+    """
+    return 1
+
+softmax_prime.__name__ = "softmax_prime"

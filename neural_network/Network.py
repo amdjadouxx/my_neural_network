@@ -206,7 +206,7 @@ class Network:
 
         HOW TO READ THE CONFUSION MATRIX:
         - The diagonal elements represent the number of points for which the predicted label is equal to the true label
-        - The off-diagonal elements are those that are misclassified by the model
+        - The off-diagonal elements are those that are misclassified by the model TP/FN | FP/TN
         """
         num_classes = y_test.shape[1]
         confusion_matrix = np.zeros((num_classes, num_classes), dtype=int)
