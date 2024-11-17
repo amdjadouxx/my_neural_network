@@ -7,9 +7,9 @@ class Layer:
         """
         Forward pass
 
-        :param input: input data
+        :param input: np.array: input data
 
-        :return: output
+        :return: np.array: output data
         """
         raise NotImplementedError
 
@@ -17,21 +17,39 @@ class Layer:
         """
         Backward pass
 
-        :param output_error: error of the layer
-        :param learning_rate: learning rate
-
-        :return: error of the previous layer
+        :param error: np.array: error
+        :param learning_rate: float: learning rate
+        :return: np.array: new error
         """
         raise NotImplementedError
 
     def params_count(self):
+        """
+        Count the number of parameters of the layer.
+
+        :return: int: number of parameters
+        """
         raise NotImplementedError
 
     def summary(self):
+        """
+        Display a summary of the layer.
+        """
         raise NotImplementedError
     
     def __str__(self):
+        """
+        Display the name of the layer.
+
+        :return: str: name of the layer
+
+        """
         raise NotImplementedError
 
     def __doc__(self):
+        """
+        Display the description of the layer.
+        
+        :return: str: description of the layer
+        """
         raise NotImplementedError

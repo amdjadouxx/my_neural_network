@@ -6,11 +6,22 @@ from .config import name_to_activation_func
 class ActivationLayer(Layer):
 
     def __init__(self, activation):
+        """
+        Create an activation layer.
+
+        :activation: str: activation function name (sigmoid, tanh, relu, step)
+        """
         func, func_prime = name_to_activation_func(activation)
         self.activation = func
         self.activation_prime = func_prime
 
     def forward(self, data_input):
+        """
+        Forward pass
+
+        :param data_input: np.array: input data
+        :return: np.array: output data
+        """
         self.input = data_input
         self.output = self.activation(self.input)
         return self.output

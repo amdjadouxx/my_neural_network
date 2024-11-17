@@ -4,9 +4,9 @@ from .Layer import Layer
 class DropoutLayer(Layer):
     def __init__(self, rate):
         """
-        Dropout layer
+        Create a dropout layer
 
-        :param rate: dropout rate (fraction of the input units to drop)
+        :param rate: float: dropout rate (0.0 to 1.0)
         """
         self.rate = rate
         self.mask = None

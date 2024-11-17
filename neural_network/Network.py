@@ -13,6 +13,11 @@ from .config import name_to_loss_func
 class Network:
 
     def __init__(self, loss='mse'):
+        """
+        Create a neural network.
+
+        :loss: str: loss function name (mse, cross_entropy)
+        """
         self.layers = []
         self.err_logs = []
         self.accuracy_logs = []
@@ -22,17 +27,17 @@ class Network:
 
     def add(self, layer):
         """
-        Ajoute une couche au réseau.
-        
-        : layer : Layer : couche à ajouter
+        Add a layer to the network.
+
+        :layer: Layer: layer to add
         """
         self.layers.append(layer)
 
     def predict(self, input_data) -> list:
         """
-        Prédit la sortie pour les données d'entrée données.
-        
-        : input_data : np.array : données d'entrée
+        Predict the output of the network.
+
+        :input_data: np.array: input data
         """
         samples = len(input_data)
         result = []
@@ -47,16 +52,16 @@ class Network:
 
     def fit(self, x_train, y_train, epochs, learning_rate, silent=False, eval=True, threshold=None, patience=0):
         """
-        Entraîne le réseau sur les données d'entraînement avec un système de seuil.
-        
-        : x_train : np.array : données d'entraînement
-        : y_train : np.array : étiquettes d'entraînement
-        : epochs : int : nombre d'itérations
-        : learning_rate : float : taux d'apprentissage
-        : silent : bool : affiche les statistiques d'entrainement
-        : eval : bool : évalue le réseau (False pour accélérer l'entraînement)
-        : threshold : float : seuil d'arrêt
-        : patience : int : nombre d'itérations sans amélioration avant l'arrêt
+        Train the network.
+
+        :x_train: np.array: training data
+        :y_train: np.array: training labels
+        :epochs: int: number of epochs
+        :learning_rate: float: learning rate
+        :silent: bool: display training statistics
+        :eval: bool: evaluate the network on the training data (desactivate to speed up training)
+        :threshold: float: early stopping threshold
+        :patience: int: early stopping patience
         """
         self.clear_logs()
         samples = len(x_train)
@@ -95,21 +100,20 @@ class Network:
 
     def clear_logs(self):
         """
-        Efface les statistiques d'entraînement.
+        Clear the logs.
         """
         self.err_logs = []
         self.accuracy_logs = []
 
     def evaluate(self, x_test, y_test, silent=True) -> float:
         """
-        Évalue le réseau sur les données de test.
+        Evaluate the network on a dataset.
 
-        : x_test : np.array : données de test
-        : y_test : np.array : étiquettes de test
-        : silent : bool : affiche les statistiques d'entraînement
+        :x_test: np.array: test data
+        :y_test: np.array: test labels
+        :silent: bool: display evaluation statistics
 
-        : return : float : précision
-
+        :return: float: accuracy
         """
         samples = len(x_test)
         correct = 0
@@ -132,11 +136,11 @@ class Network:
 
     def summary(self):
         """
-        Affiche un résumé du réseau.
+        Print a summary of the network.
         """
-        print('Résumé du réseau')
+        print('Summary: ')
         print('========================================')
-        print('Fonction de perte: ', self.loss.__name__)
+        print('Loss function: ', self.loss.__name__)
         print('========================================')
         print('Layer (type)                 Output Shape              Param #   ')
         print('========================================')
@@ -145,43 +149,43 @@ class Network:
             layer.summary()
             total_params += layer.params_count()
         print('========================================')
-        print(f'Paramètres totaux: {total_params}')
+        print(f'Total params: {total_params}')
         print('========================================')
 
     def disp_loss_graph(self):
         """
-        Affiche les statistiques d'entraînement.
+        Display the training statistics
         """
         disp_loss_graph(self.err_logs)
 
     def disp_accuracy_graph(self):
         """
-        Affiche les statistiques d'entraînement.
+        Display the training statistics
         """
         disp_accuracy_graph(self.accuracy_logs)
 
     def disp_loss_accuracy_graph(self):
         """
-        Affiche les statistiques d'entraînement.
+        Display the training statistics
         """
         disp_loss_accuracy_graph(self.err_logs, self.accuracy_logs)
 
     def show(self):
         """
-        Affiche les graphiques.
+        Display the training statistics
         """
         show()
 
     def save(self, filename):
         """
-        Sauvegarde le réseau dans un fichier.
+        Save the network to a file.
         """
         with open(filename, 'wb') as file:
             pkl.dump(self, file)
 
     def load(self, filename):
         """
-        Charge un réseau depuis un fichier.
+        Load the network from a file
         """
         with open(filename, 'rb') as file:
             loaded_model = pkl.load(file)
@@ -193,18 +197,16 @@ class Network:
 
     def confusion_matrix(self, x_test, y_test):
         """
-        Affiche la matrice de confusion pour les problèmes de classification.
+        Generate the confusion matrix for the network.
 
-        Score_f1 is the weighted average of Precision and Recall.
+        :x_test: np.array: test data
+        :y_test: np.array: test labels
 
-        Precision = TP / (TP + FP) is the ratio of correctly predicted positive observations to the total predicted positives.
+        :return: np.array: confusion matrix
 
-        Recall = TP / (TP + FN) is the ratio of correctly predicted positive observations to the all observations in actual class.
-
-        : x_test : np.array : données de test
-        : y_test : np.array : étiquettes de test
-
-        : return : np.array : matrice de confusion
+        HOW TO READ THE CONFUSION MATRIX:
+        - The diagonal elements represent the number of points for which the predicted label is equal to the true label
+        - The off-diagonal elements are those that are misclassified by the model
         """
         num_classes = y_test.shape[1]
         confusion_matrix = np.zeros((num_classes, num_classes), dtype=int)
