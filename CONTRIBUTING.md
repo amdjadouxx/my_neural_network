@@ -59,6 +59,7 @@ activation_func_dict = {
 
 1. Define the activation function and its derivative in the ActivationFunc.py file.
 2. Update the name_to_activation_func function in the config.py file to include your new activation function
+3. Update the documentation of the ActivationLayer class initializer
 
 Example:
 ```python
@@ -82,6 +83,7 @@ losses_func_dict = {
 
 1. Define your method in the Network.py file.
 2. Update the HELP.md file to document our new method
+3. Update the documentation of the Network class initializer
 
 Exemple:
 ````python
