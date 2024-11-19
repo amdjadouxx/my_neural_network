@@ -11,6 +11,7 @@ def sigmoid(x):
     :param x: input
     :return: output
     """
+    x = np.clip(x, -500, 500)
     return 1 / (1 + np.exp(-x))
 
 sigmoid.__name__ = "sigmoid"
@@ -41,6 +42,7 @@ def tanh(x):
     :param x: input
     :return: output
     """
+    x = np.clip(x, -500, 500)
     return np.tanh(x)
 
 tanh.__name__ = "tanh"
@@ -125,7 +127,8 @@ def softmax(x):
     :param x: input
     :return: output
     """
-    exps = np.exp(x - np.max(x))
+    x = np.clip(x, -500, 500)
+    exps = np.exp(x - np.max(x, axis=1, keepdims=True))
     return exps / np.sum(exps, axis=1, keepdims=True)
 
 softmax.__name__ = "softmax"
