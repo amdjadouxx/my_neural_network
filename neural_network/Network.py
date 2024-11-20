@@ -152,6 +152,27 @@ class Network:
         print(f'Total params: {total_params}')
         print('========================================')
 
+    def get_summary(self):
+        """
+        Generate a formatted summary of the network.
+        """
+        summary_lines = []
+        summary_lines.append('Summary:')
+        summary_lines.append('========================================')
+        summary_lines.append(f'Loss function: {self.loss.__name__}')
+        summary_lines.append('========================================')
+        summary_lines.append('Layer (type)                 Output Shape              Param #')
+        summary_lines.append('========================================')
+        total_params = 0
+        for layer in self.layers:
+            layer_summary = layer.summary()
+            summary_lines.append(layer_summary)
+            total_params += layer.params_count()
+        summary_lines.append('========================================')
+        summary_lines.append(f'Total params: {total_params}')
+        summary_lines.append('========================================')
+        return '\n'.join(summary_lines)
+
     def disp_loss_graph(self):
         """
         Display the training statistics

@@ -98,6 +98,7 @@ Affiche les graphiques.
 
 Génère la matrice de confusion pour le réseau.
 
+
 - **Paramètres** :
   - `x_test` : Données d'entrée pour le test.
   - `y_test` : Données de sortie attendues pour le test.

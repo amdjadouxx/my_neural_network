@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QLineEdit, QComboBox, QFileDialog, QTextEdit, QApplication
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QLineEdit, QComboBox, QFileDialog, QTextEdit, QApplication, QHBoxLayout
 import sys
 from .Network import Network
 from .FCLayer import FCLayer
@@ -21,20 +21,19 @@ class MainWindow(QMainWindow):
 
         self.layer_type = QComboBox()
         self.layer_type.addItems(["Fully Connected Layer", "Activation Layer"])
+        self.layer_type.currentIndexChanged.connect(self.update_layer_fields)
         self.layout.addWidget(QLabel("Select Layer Type"))
         self.layout.addWidget(self.layer_type)
 
         self.input_size = QLineEdit()
         self.input_size.setPlaceholderText("Input Size")
-        self.layout.addWidget(self.input_size)
-
         self.output_size = QLineEdit()
         self.output_size.setPlaceholderText("Output Size")
-        self.layout.addWidget(self.output_size)
-
         self.activation_function = QLineEdit()
         self.activation_function.setPlaceholderText(f"Activation Function (Options: {', '.join(activation_func_dict.keys())})")
-        self.layout.addWidget(self.activation_function)
+
+        self.layer_fields_layout = QHBoxLayout()
+        self.layout.addLayout(self.layer_fields_layout)
 
         self.add_layer_button = QPushButton("Add Layer")
         self.add_layer_button.clicked.connect(self.add_layer)
@@ -55,16 +54,35 @@ class MainWindow(QMainWindow):
         self.network = Network()
         self.layers_code = []
 
+        self.update_layer_fields()
+
+    def update_layer_fields(self):
+        for i in reversed(range(self.layer_fields_layout.count())): 
+            self.layer_fields_layout.itemAt(i).widget().setParent(None)
+
+        layer_type = self.layer_type.currentText()
+        if layer_type == "Fully Connected Layer":
+            self.layer_fields_layout.addWidget(self.input_size)
+            self.layer_fields_layout.addWidget(self.output_size)
+        elif layer_type == "Activation Layer":
+            self.layer_fields_layout.addWidget(self.activation_function)
+
     def add_layer(self):
         layer_type = self.layer_type.currentText()
         input_size = None
         output_size = None
         activation_function = None
-        if layer_type == "Fully Connected Layer":
-            input_size = int(self.input_size.text())
-            output_size = int(self.output_size.text())
-        elif layer_type == "Activation Layer":
-            activation_function = self.activation_function.text()
+        try:
+            if layer_type == "Fully Connected Layer":
+                input_size = int(self.input_size.text())
+                output_size = int(self.output_size.text())
+            elif layer_type == "Activation Layer":
+                activation_function = self.activation_function.text()
+                if activation_function not in activation_func_dict.keys():
+                    raise ValueError
+        except ValueError:
+            self.network_display.setText("Invalid input size or output size")
+            return
 
         if layer_type == "Fully Connected Layer" and input_size and output_size:
             self.network.add(FCLayer(input_size, output_size))
@@ -72,7 +90,6 @@ class MainWindow(QMainWindow):
         elif layer_type == "Activation Layer" and activation_function:
             self.network.add(ActivationLayer(activation_function))
             self.layers_code.append(f"net.add(ActivationLayer('{activation_function}'))")
-
         self.update_network_display()
         self.clear_input_fields()
 
@@ -96,6 +113,10 @@ class MainWindow(QMainWindow):
 
     def show_windows():
         pass
+
+    def display_summary(self):
+        summary_text = self.network.get_summary()
+        self.network_display.setText(summary_text)
 
 def show_gui():
     app = QApplication(sys.argv)
