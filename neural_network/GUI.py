@@ -94,10 +94,11 @@ class MainWindow(QMainWindow):
         self.clear_input_fields()
 
     def update_network_display(self):
-        display_text = "Network Layers:\n"
+        display_text = "<h2>Network Layers:</h2><ul>"
         for layer in self.layers_code:
-            display_text += f"{layer}\n"
-        self.network_display.setText(display_text)
+            display_text += f"<li style='color: #3498DB;'>{layer}</li>"
+        display_text += "</ul>"
+        self.network_display.setHtml(display_text)
 
     def clear_input_fields(self):
         self.input_size.clear()
