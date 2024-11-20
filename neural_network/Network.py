@@ -239,3 +239,21 @@ class Network:
 
 
         return confusion_matrix
+
+    def generate_model_code(self, loss_function, layers_code):
+        code = [
+            "import numpy as np",
+            "from neural_network.Network import Network",
+            "from neural_network.FCLayer import FCLayer",
+            "from neural_network.ActivationLayer import ActivationLayer",
+            "",
+            "def create_model():",
+            f"    net = Network('{loss_function}')"
+        ]
+        code.extend([f"    {layer}" for layer in layers_code])
+        code.append("    return net")
+        return "\n".join(code)
+
+    def save_model_to_file(self, file_path, loss_function, layers_code):
+        with open(file_path, 'w') as file:
+            file.write(self.generate_model_code(loss_function, layers_code))
