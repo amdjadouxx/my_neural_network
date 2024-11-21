@@ -26,3 +26,8 @@ To install the required dependencies, run:
 ==> gui
 
 ==> auto fine-tuning
+
+this code is based from:
+[omaraflak](https://github.com/omaraflak/Medium-Python-Neural-Network/tree/master)
+
+Don't hesitate to take a look at this simple but reallly usefull project to improve in neural network understanding :)
