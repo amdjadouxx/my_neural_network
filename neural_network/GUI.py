@@ -1,12 +1,8 @@
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QLineEdit, QComboBox, QFileDialog, QTextEdit, QApplication, QHBoxLayout, QGridLayout, QDialog, QDialogButtonBox, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QLineEdit, QComboBox, QFileDialog, QTextEdit, QApplication, QHBoxLayout, QGridLayout, QDialog, QDialogButtonBox, QMessageBox, QListWidget, QListWidgetItem
+from PyQt5.QtCore import Qt
 import sys
 from .Network import Network
-from .FCLayer import FCLayer
-from .ActivationLayer import ActivationLayer
-from .ConvLayer import ConvLayer
-from .FlattenLayer import FlattenLayer
 from .config import losses_func_dict, activation_func_dict, layer_types
-from .DropoutLayer import DropoutLayer
 
 class LayerConfigDialog(QDialog):
     def __init__(self, layer_type, parent=None):
@@ -111,7 +107,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Neural Network Builder")
-        self.setGeometry(100, 100, 8000, 800)
+        self.setGeometry(100, 100, 1000, 800)
 
         self.layout = QVBoxLayout()
 
@@ -137,9 +133,18 @@ class MainWindow(QMainWindow):
         self.load_button.clicked.connect(self.load_model_from_file)
         self.layout.addWidget(self.load_button)
 
-        self.network_display = QTextEdit()
-        self.network_display.setReadOnly(True)
-        self.layout.addWidget(self.network_display)
+        self.layer_list = QListWidget()
+        self.layer_list.itemDoubleClicked.connect(self.edit_layer)
+        self.layout.addWidget(self.layer_list)
+
+        # Add buttons for moving layers up and down
+        self.move_up_button = QPushButton("▲")
+        self.move_up_button.clicked.connect(self.move_layer_up)
+        self.layout.addWidget(self.move_up_button)
+
+        self.move_down_button = QPushButton("▼")
+        self.move_down_button.clicked.connect(self.move_layer_down)
+        self.layout.addWidget(self.move_down_button)
 
         self.container = QWidget()
         self.container.setLayout(self.layout)
@@ -148,13 +153,35 @@ class MainWindow(QMainWindow):
         self.network = Network()
         self.layers_code = []
 
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_Up:
+            print("Up")
+            self.move_layer_up()
+        elif event.key() == Qt.Key_Down:
+            self.move_layer_down()
+
+    def move_layer_up(self):
+        current_row = self.layer_list.currentRow()
+        if current_row > 0:
+            self.layers_code[current_row], self.layers_code[current_row - 1] = self.layers_code[current_row - 1], self.layers_code[current_row]
+            self.layer_list.insertItem(current_row - 1, self.layer_list.takeItem(current_row))
+            self.layer_list.setCurrentRow(current_row - 1)
+            self.update_network_display()
+
+    def move_layer_down(self):
+        current_row = self.layer_list.currentRow()
+        if current_row < self.layer_list.count() - 1:
+            self.layers_code[current_row], self.layers_code[current_row + 1] = self.layers_code[current_row + 1], self.layers_code[current_row]
+            self.layer_list.insertItem(current_row + 1, self.layer_list.takeItem(current_row))
+            self.layer_list.setCurrentRow(current_row + 1)
+            self.update_network_display()
+
     def load_model_from_file(self):
         options = QFileDialog.Options()
         file_path, _ = QFileDialog.getOpenFileName(self, "Load Model", "", "Pickle Files (*.pkl);;All Files (*)", options=options)
         if file_path:
             self.network = Network()
             self.network.load(file_path)
-            self.network_display.setText(f"Model loaded from {file_path}")
             self.layers_code = self.network.get_layers_code()
             self.update_network_display()
 
@@ -165,31 +192,40 @@ class MainWindow(QMainWindow):
             config = dialog.get_layer_config()
             if config is None:
                 return
-            if layer_type == "Fully Connected Layer":
-                layer = FCLayer(config["input_size"], config["output_size"])
-                self.layers_code.append(f"net.add(FCLayer({config['input_size']}, {config['output_size']}))")
-            elif layer_type == "Activation Layer":
-                layer = ActivationLayer(config["activation_function"])
-                self.layers_code.append(f"net.add(ActivationLayer('{config['activation_function']}'))")
-            elif layer_type == "Convolutional Layer":
-                layer = ConvLayer(config["input_shape"], config["kernel_shape"], config["layer_depth"])
-                self.layers_code.append(f"net.add(ConvLayer({config['input_shape']}, {config['kernel_shape']}, {config['layer_depth']}))")
-            elif layer_type == "Flatten Layer":
-                layer = FlattenLayer()
-                self.layers_code.append("net.add(FlattenLayer())")
-            elif layer_type == "Dropout Layer":
-                layer = DropoutLayer(config["rate"])
-                self.layers_code.append(f"net.add(DropoutLayer({config['rate']}))")
-            
-            self.network.add(layer)
+            layer_code = self.get_layer_code(layer_type, config)
+            self.layers_code.append(layer_code)
+            self.network.add(eval(layer_code))
             self.update_network_display()
 
+    def edit_layer(self):
+        current_row = self.layer_list.currentRow()
+        if current_row >= 0:
+            layer_type = self.layer_list.item(current_row).text().split(' ')[0] + " Layer"
+            dialog = LayerConfigDialog(layer_type, self)
+            if dialog.exec_() == QDialog.Accepted:
+                config = dialog.get_layer_config()
+                if config is None:
+                    return
+                self.layers_code[current_row] = self.get_layer_code(layer_type, config)
+                self.update_network_display()
+
+    def get_layer_code(self, layer_type, config):
+        if layer_type == "Fully Connected Layer":
+            return f"FCLayer({config['input_size']}, {config['output_size']})"
+        elif layer_type == "Activation Layer":
+            return f"ActivationLayer('{config['activation_function']}')"
+        elif layer_type == "Convolutional Layer":
+            return f"ConvLayer({config['input_shape']}, {config['kernel_shape']}, {config['layer_depth']})"
+        elif layer_type == "Flatten Layer":
+            return "FlattenLayer()"
+        elif layer_type == "Dropout Layer":
+            return f"DropoutLayer({config['rate']})"
+
     def update_network_display(self):
-        display_text = "<h2>Network Layers:</h2><ul>"
-        for layer in self.layers_code:
-            display_text += f"<li style='color: #3498DB;'>{layer}</li>"
-        display_text += "</ul>"
-        self.network_display.setHtml(display_text)
+        self.layer_list.clear()
+        for layer_code in self.layers_code:
+            layer_summary = layer_code.replace('(', ' (').replace(')', ')')
+            self.layer_list.addItem(layer_summary)
 
     def save_model_to_file(self):
         options = QFileDialog.Options()
@@ -197,9 +233,9 @@ class MainWindow(QMainWindow):
         if file_path:
             saved = self.network.save_model_to_file(file_path, self.loss_function.currentText(), self.layers_code)
             if saved:
-                self.network_display.setText(f"Model saved to {file_path}")
+                QMessageBox.information(self, "Success", f"Model saved to {file_path}")
             else:
-                self.network_display.setText("Failed to save model")
+                QMessageBox.critical(self, "Error", "Failed to save model")
 
 def show_gui():
     app = QApplication(sys.argv)

@@ -262,6 +262,14 @@ class Network:
         return confusion_matrix
 
     def generate_model_code(self, loss_function, layers_code):
+        """
+        Generate the code of the model.
+
+        :loss_function: str: loss function name
+        :layers_code: list: list of layers code
+
+        :return: str: model code
+        """
         code = []
         for file_name, class_name in layer_types.values():
             code.append(f"from neural_network.{file_name} import {class_name}")
@@ -278,6 +286,15 @@ class Network:
         return "\n".join(code)
 
     def save_model_to_file(self, file_path, loss_function, layers_code):
+        """
+        Save the model to a file.
+
+        :file_path: str: file path
+        :loss_function: str: loss function name
+        :layers_code: list: list of layers code
+
+        :return: bool: success or not
+        """
         if not file_path or not loss_function or not layers_code:
             return False
         with open(file_path, 'w') as file:
@@ -285,6 +302,11 @@ class Network:
         return True
 
     def get_layers_code(self):
+        """
+        Get the code of the layers.
+
+        :return: list: list of layers code
+        """
         layers_code = []
         for layer in self.layers:
             layers_code.append(layer.get_load_line())
