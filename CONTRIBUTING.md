@@ -10,6 +10,10 @@ To add a new layer to the project, follow these steps:
 2. Define your layer class by inheriting from the `Layer` base class.
 3. Implement the required methods (`forward`, `backward`, `params_count`, etc.).
 4. Add your layer to the `__init__.py` file in the `neural_network` directory to make it importable.
+5. Add your layer to the corresponding dictionnary in `config.py` file
+
+### optionnal:
+    if you want to add it to the GUI go in the GUI.py and see and look at how you can do it
 
 Example:
 ```python

@@ -7,7 +7,7 @@ from .DisplayTrainStats import *
 from .DropoutLayer import DropoutLayer
 from .FCLayer import FCLayer
 from .ActivationLayer import ActivationLayer
-from .config import name_to_loss_func
+from .config import name_to_loss_func, layer_types
 
 
 class Network:
@@ -262,19 +262,23 @@ class Network:
         return confusion_matrix
 
     def generate_model_code(self, loss_function, layers_code):
-        code = [
-            "import numpy as np",
-            "from neural_network.Network import Network",
-            "from neural_network.FCLayer import FCLayer",
-            "from neural_network.ActivationLayer import ActivationLayer",
-            "",
-            "def create_model():",
-            f"    net = Network('{loss_function}')"
-        ]
-        code.extend([f"    {layer}" for layer in layers_code])
-        code.append("    return net")
+        code = []
+        for file_name, class_name in layer_types.values():
+            code.append(f"from neural_network.{file_name} import {class_name}")
+        code.append("from neural_network.Network import Network")
+        code.append("\n\n#===THE MODEL CODE===\n\n")
+        code.append(f"def create_model():")
+        code.append(f"    net = Network('{loss_function}')")
+        for layer in layers_code:
+            code.append(f"    net.add({layer})")
+        code.append(f"    return net")
+        code.append("\n\n#===SUMMARY OF THE MODEL===\n\n")
+        code.append("net.summary()")
         return "\n".join(code)
 
     def save_model_to_file(self, file_path, loss_function, layers_code):
+        if not file_path or not loss_function or not layers_code:
+            return False
         with open(file_path, 'w') as file:
             file.write(self.generate_model_code(loss_function, layers_code))
+        return True

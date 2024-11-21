@@ -1,4 +1,4 @@
-from Layer import Layer
+from .Layer import Layer
 from .FCLayer import FCLayer
 from .ActivationLayer import ActivationLayer
 from .ActivationFunc import tanh, tanh_prime, sigmoid, sigmoid_prime, step, step_prime
