@@ -55,3 +55,9 @@ class FlattenLayer(Layer):
         Documentation
         """
         return "Flatten Layer"
+    
+    def get_load_line(self):
+        """
+        Load line
+        """
+        return "FlattenLayer()"

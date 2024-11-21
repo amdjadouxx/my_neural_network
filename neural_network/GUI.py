@@ -74,10 +74,10 @@ class LayerConfigDialog(QDialog):
             elif self.layer_type == "Activation Layer":
                 activation_function = self.activation_function.text()
                 if not activation_function:
-                    raise ValueError("Activation function cannot be empty.")
+                        raise ValueError("Activation function cannot be empty.")
                 if activation_function not in activation_func_dict.keys():
                     raise ValueError(f"Invalid activation function. Options are: {', '.join(activation_func_dict.keys())}")
-                return {
+                return {            
                     "activation_function": activation_function
                 }
             elif self.layer_type == "Convolutional Layer":
@@ -111,7 +111,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Neural Network Builder")
-        self.setGeometry(100, 100, 1000, 800)
+        self.setGeometry(100, 100, 8000, 800)
 
         self.layout = QVBoxLayout()
 
@@ -133,6 +133,10 @@ class MainWindow(QMainWindow):
         self.save_button.clicked.connect(self.save_model_to_file)
         self.layout.addWidget(self.save_button)
 
+        self.load_button = QPushButton("Load Model from File")
+        self.load_button.clicked.connect(self.load_model_from_file)
+        self.layout.addWidget(self.load_button)
+
         self.network_display = QTextEdit()
         self.network_display.setReadOnly(True)
         self.layout.addWidget(self.network_display)
@@ -143,6 +147,16 @@ class MainWindow(QMainWindow):
 
         self.network = Network()
         self.layers_code = []
+
+    def load_model_from_file(self):
+        options = QFileDialog.Options()
+        file_path, _ = QFileDialog.getOpenFileName(self, "Load Model", "", "Pickle Files (*.pkl);;All Files (*)", options=options)
+        if file_path:
+            self.network = Network()
+            self.network.load(file_path)
+            self.network_display.setText(f"Model loaded from {file_path}")
+            self.layers_code = self.network.get_layers_code()
+            self.update_network_display()
 
     def add_layer(self):
         layer_type = self.layer_type.currentText()

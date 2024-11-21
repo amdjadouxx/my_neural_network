@@ -56,3 +56,9 @@ class DropoutLayer(Layer):
         Get the documentation of the dropout layer
         """
         return 'Dropout layer used in neural networks to prevent overfitting by randomly setting some input units to 0'
+
+    def get_load_line(self):
+        """
+        Get the line of code to load the dropout layer
+        """
+        return f'DropoutLayer(rate={self.rate})'

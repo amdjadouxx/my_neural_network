@@ -273,6 +273,7 @@ class Network:
             code.append(f"    net.add({layer})")
         code.append(f"    return net")
         code.append("\n\n#===SUMMARY OF THE MODEL===\n\n")
+        code.append("net = create_model()")
         code.append("net.summary()")
         return "\n".join(code)
 
@@ -282,3 +283,9 @@ class Network:
         with open(file_path, 'w') as file:
             file.write(self.generate_model_code(loss_function, layers_code))
         return True
+
+    def get_layers_code(self):
+        layers_code = []
+        for layer in self.layers:
+            layers_code.append(layer.get_load_line())
+        return layers_code

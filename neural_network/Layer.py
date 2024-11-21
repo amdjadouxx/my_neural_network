@@ -53,3 +53,11 @@ class Layer:
         :return: str: description of the layer
         """
         raise NotImplementedError
+    
+    def get_load_line(self):
+        """
+        Get the line of code to load the layer.
+
+        :return: str: line of code
+        """
+        raise NotImplementedError

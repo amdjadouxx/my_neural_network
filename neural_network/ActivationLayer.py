@@ -59,3 +59,9 @@ class ActivationLayer(Layer):
         Get the documentation of the activation layer
         """
         return 'Activation layer used in neural networks to apply a function to the input data to detect complex patterns'
+    
+    def get_load_line(self):
+        """
+        Get the line of code to load the layer
+        """
+        return f'ActivationLayer("{self.activation.__name__}")'

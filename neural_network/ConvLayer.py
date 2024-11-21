@@ -79,3 +79,15 @@ class ConvLayer(Layer):
         Return the name of the layer
         """
         return "Convolutional Layer"
+    
+    def __doc__(self):
+        """
+        Return the description of the layer
+        """
+        return "Convolutional Layer used in neural networks to detect features in images"
+    
+    def get_load_line(self):
+        """
+        Return the line of code to load the layer
+        """
+        return f'ConvLayer({self.input_shape}, {self.kernel_shape}, {self.layer_depth})'

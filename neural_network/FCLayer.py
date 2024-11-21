@@ -62,3 +62,9 @@ class FCLayer(Layer):
         Documentation
         """
         return 'Fully connected layer used in neural networks to weight inputs and add biases to them'
+
+    def get_load_line(self) -> str:
+        """
+        Get the line of code to load the layer
+        """
+        return f'FCLayer({self.weights.shape[0]}, {self.weights.shape[1]})'
