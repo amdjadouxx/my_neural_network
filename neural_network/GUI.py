@@ -200,7 +200,8 @@ class MainWindow(QMainWindow):
     def edit_layer(self):
         current_row = self.layer_list.currentRow()
         if current_row >= 0:
-            layer_type = self.layer_list.item(current_row).text().split(' ')[0] + " Layer"
+            layer_summary = self.layer_list.item(current_row).text()
+            layer_type = self.get_layer_type_from_summary(layer_summary)
             dialog = LayerConfigDialog(layer_type, self)
             if dialog.exec_() == QDialog.Accepted:
                 config = dialog.get_layer_config()
@@ -208,6 +209,18 @@ class MainWindow(QMainWindow):
                     return
                 self.layers_code[current_row] = self.get_layer_code(layer_type, config)
                 self.update_network_display()
+
+    def get_layer_type_from_summary(self, summary):
+        if "FCLayer" in summary:
+            return "Fully Connected Layer"
+        elif "ActivationLayer" in summary:
+            return "Activation Layer"
+        elif "ConvLayer" in summary:
+            return "Convolutional Layer"
+        elif "FlattenLayer" in summary:
+            return "Flatten Layer"
+        elif "DropoutLayer" in summary:
+            return "Dropout Layer"
 
     def get_layer_code(self, layer_type, config):
         if layer_type == "Fully Connected Layer":
