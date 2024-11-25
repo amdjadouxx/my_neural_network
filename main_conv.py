@@ -36,7 +36,7 @@ def save():
     net.add(ActivationLayer('tanh'))
     net.add(FCLayer(100, 10))
     net.add(ActivationLayer('sigmoid'))
-    net.fit(x_train[0:3000], y_train[0:3000], epochs=2500, learning_rate=0.1, threshold=0.01, patience=5, eval=False, silent=True)
+    net.fit(x_train[0:3000], y_train[0:3000], epochs=300, learning_rate=0.1, threshold=0.01, patience=5, eval=False)
     net.save('mnist_conv.pkl')
     return net
 
@@ -49,7 +49,7 @@ if __name__ == '__main__':
     net.evaluate(x_test[0:1000], y_test[0:1000], silent=False)
     net.summary()
     #predict a png image
-    img = plt.imread('pixil-frame-2.png')
+    img = plt.imread('pixil-frame-0.png')
     img = img[:,:,0]
     img = img.reshape(1, 28, 28, 1)
     out = net.predict(img)

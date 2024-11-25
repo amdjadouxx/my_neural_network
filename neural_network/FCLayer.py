@@ -38,12 +38,6 @@ class FCLayer(Layer):
 
         return np.dot(error, self.weights.T)
 
-    def __str__(self) -> str:
-        """
-        String representation
-        """
-        return 'Fully Connected Layer'
-
     def params_count(self) -> int:
         """
         Number of parameters
@@ -54,7 +48,7 @@ class FCLayer(Layer):
         """
         Summary
         """
-        self.__str__()
+        print(f'Fully connected layer')
         print(f'Paramètres: {self.params_count()}')
 
     def __doc__(self) -> str:
@@ -68,3 +62,5 @@ class FCLayer(Layer):
         Get the line of code to load the layer
         """
         return f'FCLayer({self.weights.shape[0]}, {self.weights.shape[1]})'
+    
+FCLayer.__name__ = "Fully Connected Layer"

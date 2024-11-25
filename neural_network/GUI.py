@@ -26,7 +26,7 @@ class LayerConfigDialog(QDialog):
             self.activation_function = QLineEdit()
             self.activation_function.setPlaceholderText(f"Activation Function (Options: {', '.join(activation_func_dict.keys())})")
             self.layout.addWidget(self.activation_function)
-        elif self.layer_type == "Convolutional Layer":
+        elif self.layer_type == "ConvLayer":
             self.input_shape = QLineEdit()
             self.input_shape.setPlaceholderText("Input Shape ex: 28,28,1")
             self.layout.addWidget(self.input_shape)
@@ -117,7 +117,8 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.loss_function)
 
         self.layer_type = QComboBox()
-        self.layer_type.addItems(layer_types)
+        self.layer_type.addItems([key for key in layer_types.keys()])
+
         self.layout.addWidget(QLabel("Select Layer Type"))
         self.layout.addWidget(self.layer_type)
 

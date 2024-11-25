@@ -36,12 +36,6 @@ class ActivationLayer(Layer):
         """
         return error * self.activation_prime(self.input)
 
-    def __str__(self):
-        """
-        String representation of the activation layer
-        """
-        return 'Activation Layer'
-
     def params_count(self):
         """
         Get the number of parameters in the activation layer
@@ -65,3 +59,5 @@ class ActivationLayer(Layer):
         Get the line of code to load the layer
         """
         return f'ActivationLayer("{self.activation.__name__}")'
+    
+ActivationLayer.__name__ = "Activation Layer"

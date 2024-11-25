@@ -22,11 +22,11 @@ activation_func_dict = {
 
 #ex: name of the layer get by __str__ method : (file name, class name)
 layer_types = {
-    FCLayer.__str__ : ('FCLayer', 'FCLayer'),
-    ActivationLayer.__str__ : ('ActivationLayer', 'ActivationLayer'),
-    ConvLayer.__str__ : ('ConvLayer', 'ConvLayer'),
-    FlattenLayer.__str__ : ('FlattenLayer', 'FlattenLayer'),
-    DropoutLayer.__str__ : ('DropoutLayer', 'DropoutLayer')
+    str(FCLayer.__name__) : ('FCLayer', 'FCLayer'),
+    'Activation Layer': ('ActivationLayer', 'ActivationLayer'),
+    str(ConvLayer.__name__) : ('ConvLayer', 'ConvLayer'),
+    str(FlattenLayer.__name__) : ('FlattenLayer', 'FlattenLayer'),
+    str(DropoutLayer.__name__) : ('DropoutLayer', 'DropoutLayer')
     }
 
 def name_to_loss_func(name):

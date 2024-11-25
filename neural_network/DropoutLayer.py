@@ -34,12 +34,6 @@ class DropoutLayer(Layer):
         """
         return error * self.mask
 
-    def __str__(self):
-        """
-        String representation of the dropout layer
-        """
-        return 'Dropout Layer'
-
     def params_count(self):
         """
         Get the number of parameters in the dropout layer
@@ -63,3 +57,5 @@ class DropoutLayer(Layer):
         Get the line of code to load the dropout layer
         """
         return f'DropoutLayer(rate={self.rate})'
+    
+DropoutLayer.__name__ = "Dropout Layer"

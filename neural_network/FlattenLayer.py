@@ -46,7 +46,7 @@ class FlattenLayer(Layer):
 
     def __str__(self):
         """
-        String representation
+        Return the name of the layer
         """
         return "Flatten Layer"
     
@@ -61,3 +61,5 @@ class FlattenLayer(Layer):
         Load line
         """
         return "FlattenLayer()"
+    
+FlattenLayer.__name__ = "Flatten Layer"

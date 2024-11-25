@@ -61,3 +61,5 @@ class Layer:
         :return: str: line of code
         """
         raise NotImplementedError
+    
+#DEFINE THE __nae attribute of the Layer class

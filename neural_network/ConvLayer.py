@@ -73,12 +73,6 @@ class ConvLayer(Layer):
         print("Output Shape: ", self.output_shape)
         print("Weights Shape: ", self.weights.shape)
         print("Bias Shape: ", self.bias.shape)
-
-    def __str__(self):
-        """
-        Return the name of the layer
-        """
-        return 'Convolutional Layer'
     
     def __doc__(self):
         """
@@ -91,3 +85,5 @@ class ConvLayer(Layer):
         Return the line of code to load the layer
         """
         return f'ConvLayer({self.input_shape}, {self.kernel_shape}, {self.layer_depth})'
+    
+ConvLayer.__name__ = 'ConvLayer'
