@@ -48,7 +48,7 @@ class FlattenLayer(Layer):
         """
         String representation
         """
-        return "Flatten"
+        return "Flatten Layer"
     
     def __doc__(self):
         """

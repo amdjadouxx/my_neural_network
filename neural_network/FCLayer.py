@@ -42,7 +42,7 @@ class FCLayer(Layer):
         """
         String representation
         """
-        return f'FCLayer: {self.weights.shape[0]} inputs, {self.weights.shape[1]} outputs'
+        return 'Fully Connected Layer'
 
     def params_count(self) -> int:
         """

@@ -40,7 +40,7 @@ class ActivationLayer(Layer):
         """
         String representation of the activation layer
         """
-        return f'ActivationLayer: {self.activation}'
+        return 'Activation Layer'
 
     def params_count(self):
         """

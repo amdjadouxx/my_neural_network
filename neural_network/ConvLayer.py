@@ -78,7 +78,7 @@ class ConvLayer(Layer):
         """
         Return the name of the layer
         """
-        return "Convolutional Layer"
+        return 'Convolutional Layer'
     
     def __doc__(self):
         """

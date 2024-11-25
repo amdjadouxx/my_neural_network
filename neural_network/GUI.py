@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QLineEdit, QComboBox, QFileDialog, QTextEdit, QApplication, QHBoxLayout, QGridLayout, QDialog, QDialogButtonBox, QMessageBox, QListWidget, QListWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QPushButton, QVBoxLayout, QWidget, QLabel, QLineEdit, QComboBox, QFileDialog, QApplication, QDialog, QDialogButtonBox, QMessageBox, QListWidget
 from PyQt5.QtCore import Qt
 import sys
 from .Network import Network
@@ -211,16 +211,7 @@ class MainWindow(QMainWindow):
                 self.update_network_display()
 
     def get_layer_type_from_summary(self, summary):
-        if "FCLayer" in summary:
-            return "Fully Connected Layer"
-        elif "ActivationLayer" in summary:
-            return "Activation Layer"
-        elif "ConvLayer" in summary:
-            return "Convolutional Layer"
-        elif "FlattenLayer" in summary:
-            return "Flatten Layer"
-        elif "DropoutLayer" in summary:
-            return "Dropout Layer"
+        print(summary)
 
     def get_layer_code(self, layer_type, config):
         if layer_type == "Fully Connected Layer":

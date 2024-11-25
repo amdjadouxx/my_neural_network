@@ -29,6 +29,7 @@ class DropoutLayer(Layer):
 
         :param error: np.ndarray: error from the next layer
         :param learning_rate: float: learning rate
+        
         :return: np.ndarray: error to pass to the previous layer
         """
         return error * self.mask
@@ -37,7 +38,7 @@ class DropoutLayer(Layer):
         """
         String representation of the dropout layer
         """
-        return f'DropoutLayer(rate={self.rate})'
+        return 'Dropout Layer'
 
     def params_count(self):
         """

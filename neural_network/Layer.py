@@ -39,7 +39,7 @@ class Layer:
     
     def __str__(self):
         """
-        Display the name of the layer.
+        Display the type of the layer.
 
         :return: str: name of the layer
 
