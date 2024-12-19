@@ -2,32 +2,21 @@
 
 This project implements neural networks from scratch, providing a flexible framework for building and training custom neural network architectures.
 
+## Overview
+
+This repository contains an implementation of neural networks built from scratch using Python. The goal of this project is to provide a deep dive into the inner workings of neural networks, including forward and backward propagation, activation functions, optimization techniques, and more. It is a great resource for those who want to understand how neural networks work under the hood, as well as a solid starting point for building more advanced models.
+
 ## Features
 
-- Fully connected layers
-- Activation layers with various activation functions
-- Dropout layers for regularization
-- Customizable loss functions
-- Training with backpropagation
-- Model saving and loading
+- **Fully Customizable Architectures**: Build your own neural network architectures by modifying layers and activation functions.
+- **Backpropagation and Optimization**: Implement backpropagation for training, with the ability to customize optimization methods such as gradient descent.
+- **Support for Various Activation Functions**: Includes support for common activation functions like ReLU, Sigmoid, and Tanh.
+- **Training and Evaluation**: Tools to train models and evaluate their performance on test data.
 
-## Installation
+## Requirements
 
-To install the required dependencies, run:
-
-# NEXT_STEPS
-
-==> other main to resolve problem to check fiability (no image because no cnn)
-
-==> cnn for mnist better result
-
-==> optimizer implementation
-
-==> gui
-
-==> auto fine-tuning
+- Python 3.x
+- Numpy
 
 this code is based from:
 [omaraflak](https://github.com/omaraflak/Medium-Python-Neural-Network/tree/master)
-
-Don't hesitate to take a look at this simple but reallly usefull project to improve in neural network understanding :)
