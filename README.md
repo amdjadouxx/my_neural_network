@@ -18,5 +18,7 @@ This repository contains an implementation of neural networks built from scratch
 - Python 3.x
 - Numpy
 
+![Brain](img/brain.jpg)
+
 this code is based from:
 [omaraflak](https://github.com/omaraflak/Medium-Python-Neural-Network/tree/master)
