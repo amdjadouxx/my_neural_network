@@ -4,7 +4,7 @@ This project implements neural networks from scratch, providing a flexible frame
 
 ## Overview
 
-This repository contains an implementation of neural networks built from scratch using Python. The goal of this project is to provide a deep dive into the inner workings of neural networks, including forward and backward propagation, activation functions, optimization techniques, and more. It is a great resource for those who want to understand how neural networks work under the hood, as well as a solid starting point for building more advanced models.
+This repository contains an implementation of neural networks built from scratch using Python. The goal of this project is to provide a deep dive into the inner workings of neural networks, including forward and backward propagation, activation functions, optimization techniques, and more. It is a great resource for those who want to understand how neural networks work under the hood, as well as a solid starting point for building more advanced neural networks models.
 
 ## Features
 
